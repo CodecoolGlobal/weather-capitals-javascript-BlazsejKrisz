@@ -1,5 +1,6 @@
 import './style.css'
 import getCountries from './api-client/getCountries'
+<<<<<<< HEAD
 import Freecurrencyapi from '@everapi/freecurrencyapi-js'
 
 const app = document.querySelector<HTMLDivElement>('#app')
@@ -12,6 +13,18 @@ freecurrencyapi.latest({
 }).then(response => {
   console.log(response);
 });
+=======
+import getWeather from './api-client/weather';
+
+const app = document.querySelector<HTMLDivElement>('#app')
+
+async function convertString(inputString: string): Promise<string> {
+ 
+  return inputString.replace(/[^\w\s]/gi, '');
+}
+
+
+>>>>>>> 634e5bb3b40e1dbfd7a346c509be27b28055a9d8
 
 async function main() {
   const countries = await getCountries();
@@ -20,13 +33,19 @@ async function main() {
   ul.className = "countries-capitals-list"
 
   for (const country of countries) {
+    let capitals = await convertString(country.capitals[0])
+
     const li = document.createElement("li")
     const p = document.createElement("p")
     li.innerText = country.name.common
     p.innerText = country.capitals[0]
-
+    const p2 = document.createElement("p")
+    if (capitals) {
+    p2.innerText = await getWeather(capitals)
+    } 
     li.append(p)
     ul.append(li)
+    p.append(p2);
   }
 app?.append(ul)
 }
