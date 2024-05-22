@@ -1,6 +1,5 @@
 import './style.css'
 import getCountries from './api-client/getCountries'
-<<<<<<< HEAD
 import Freecurrencyapi from '@everapi/freecurrencyapi-js'
 
 const app = document.querySelector<HTMLDivElement>('#app')
@@ -13,7 +12,6 @@ freecurrencyapi.latest({
 }).then(response => {
   console.log(response);
 });
-=======
 import getWeather from './api-client/weather';
 
 const app = document.querySelector<HTMLDivElement>('#app')
@@ -24,7 +22,6 @@ async function convertString(inputString: string): Promise<string> {
 }
 
 
->>>>>>> 634e5bb3b40e1dbfd7a346c509be27b28055a9d8
 
 async function main() {
   const countries = await getCountries();
