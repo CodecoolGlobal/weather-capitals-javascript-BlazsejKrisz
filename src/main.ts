@@ -1,35 +1,62 @@
 import "./style.css";
 import getCountries from "./api-client/getCountries";
 import getWeather from "./api-client/weather";
-import Freecurrencyapi from '@everapi/freecurrencyapi-js';
+import Freecurrencyapi from "@everapi/freecurrencyapi-js";
 
-const app = document.querySelector<HTMLDivElement>('#app')
+const app = document.querySelector<HTMLDivElement>("#app");
 
-const freecurrencyapi = new Freecurrencyapi('fca_live_OgiWprKAuMTWbBi3p3y1OvNdr4Pe4PGBKi7MZ4Ph')
-
-freecurrencyapi.latest({
-  base_currency: 'USD',
-  currencies: 'EUR'
-}).then(response => {
-  console.log(response);
-});
+const freecurrencyapi = new Freecurrencyapi(
+  "fca_live_OgiWprKAuMTWbBi3p3y1OvNdr4Pe4PGBKi7MZ4Ph"
+);
 
 
 async function main() {
   const countries = await getCountries();
 
-  const ul = document.createElement("ul");
-  ul.className = "countries-capitals-list";
+  const select = document.createElement("select");
+  select.innerText = "Select a country";
+  select.className = "countries-capitals-list";
+
+  const cardContainer = document.createElement("div");
+  cardContainer.className = "card-container";
 
   for (const country of countries) {
+    const option = document.createElement("option");
+    option.innerText = country.name.common;
+    option.value = country.name.common;
+    select.append(option);
+
     let capitals = country.capitals[0];
 
-    const li = document.createElement("li");
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const li = document.createElement("div");
     li.innerText = country.name.common;
 
     const p = document.createElement("p");
-    p.innerText = country.capitals[0];
-    
+    p.innerText = capitals;
+
+    option.dataset.cardId = `card-${country.name.common}`;
+    card.id = `card-${country.name.common}`;
+    card.style.display = "none";
+    cardContainer.append(card);
+
+    select.addEventListener("change", () => {
+      const selectedOption = select.selectedOptions[0];
+      const selectedCardId = selectedOption.dataset.cardId;
+      const selectedCard = document.getElementById(selectedCardId);
+
+      const existingCards = document.querySelectorAll(".card");
+      existingCards.forEach((card) => {
+        card.style.display = "none";
+      });
+
+      if (selectedCard) {
+        selectedCard.style.display = "block";
+      }
+    });
+
     p.addEventListener("click", async () => {
       const existingP2 = p.querySelector("p.capitalWeather");
       if (existingP2) {
@@ -43,19 +70,24 @@ async function main() {
         } else {
           p2.innerText = "No capital detected";
         }
-        const weatherText = document.createElement("div")
+        const weatherText = document.createElement("div");
         weatherText.innerText = weather.current.condition.text;
-        const icon = document.createElement("img")
+
+        const icon = document.createElement("img");
         icon.src = weather.current.condition.icon;
-        p2.append(icon);
-        p2.append(weatherText);
+
+        p2.append(icon, weatherText);
         p.append(p2);
-        
       }
     });
+
+    card.append(li);
     li.append(p);
-    ul.append(li);
+    cardContainer.append(card);
   }
-  app?.append(ul);
+
+  app?.append(select);
+  app?.append(cardContainer);
 }
+
 main();
