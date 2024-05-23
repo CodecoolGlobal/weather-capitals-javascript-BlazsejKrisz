@@ -39,8 +39,8 @@ async function main() {
     const p = document.createElement("p");
     p.innerText = capitals;
 
-    option.dataset.cardId = `card-${country.name.common}`;
-    card.id = `card-${country.name.common}`;
+    option.dataset.cardId = `${country.name.common}`;
+    card.id = `${country.name.common}`;
     card.style.display = "none";
     cardContainer.append(card);
 
@@ -60,9 +60,9 @@ async function main() {
     });
 
     p.addEventListener("click", async () => {
-      const existingP2 = p.querySelector("p.capitalWeather");
+      const existingP2 = app.querySelector("p.capitalWeather");
       if (existingP2) {
-        p.removeChild(existingP2);
+        app.removeChild(existingP2);
       } else {
         const weather = await getWeather(capitals);
         const p2 = document.createElement("p");
@@ -85,12 +85,16 @@ async function main() {
       for (const border of details.borders) {
       const negborLi = document.createElement("li")
       const neigborCountry = countries.find(country => country.cca3 === border)
+      negborLi.className = neigborCountry?.name.common;
       negborLi.innerText = `${neigborCountry?.name.common}'s Capital city: ${neigborCountry?.capitals[0]}`
+      negborLi.addEventListener('click', async () => {select.value = neigborCountry?.name.common;
+        card.id = neigborCountry?.name.common
+       })
       neighbor.append(negborLi)
       }
 
         p2.append(icon, weatherText, neighbor);
-        p.append(p2);
+        app.append(p2);
 
       }
     });
