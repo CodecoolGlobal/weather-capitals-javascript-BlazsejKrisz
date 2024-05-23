@@ -2,12 +2,14 @@ import "./style.css";
 import getCountries from "./api-client/getCountries";
 import getWeather from "./api-client/weather";
 import Freecurrencyapi from "@everapi/freecurrencyapi-js";
+import getCountryDetails from "./api-client/getCountryDetails";
 
 const app = document.querySelector<HTMLDivElement>("#app");
 
 const freecurrencyapi = new Freecurrencyapi(
   "fca_live_OgiWprKAuMTWbBi3p3y1OvNdr4Pe4PGBKi7MZ4Ph"
 );
+
 
 
 async function main() {
@@ -76,8 +78,20 @@ async function main() {
         const icon = document.createElement("img");
         icon.src = weather.current.condition.icon;
 
-        p2.append(icon, weatherText);
+      const details = await getCountryDetails(country.cca3)
+      const neighbor = document.createElement("ul")
+      neighbor.innerText = "Neigbouring countries"
+
+      for (const border of details.borders) {
+      const negborLi = document.createElement("li")
+      const neigborCountry = countries.find(country => country.cca3 === border)
+      negborLi.innerText = `${neigborCountry?.name.common}'s Capital city: ${neigborCountry?.capitals[0]}`
+      neighbor.append(negborLi)
+      }
+
+        p2.append(icon, weatherText, neighbor);
         p.append(p2);
+
       }
     });
 
