@@ -13,6 +13,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "@everapi/freecurrencyapi-js": "^1.0.1"
     "node-fetch": "^3.3.2"
   }
 }
