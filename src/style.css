@@ -5,3 +5,45 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.card {
+  background-color: #000;
+  color: #fff;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.capitalWeather {
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.capitalWeather img {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+li span {
+  display: block;
+}
+
+li span:first-child {
+  font-weight: bold;
+}
