@@ -104,49 +104,9 @@ async function main() {
       
           neighborLi.append(neighborIcon, neighborWeatherText);
           neighbor.append(neighborLi);
-          neighborLi.addEventListener('click', async () => {
-
-              
-              const weather = await getWeather(capitals);
-              const p2 = document.createElement("p");
-              if (capitals) {
-                p2.innerText = `${weather.current.temp_c} Celsius`;
-                p2.className = "capitalWeather";
-              } else {
-                p2.innerText = "No capital detected";
-              }
-              const weatherText = document.createElement("div");
-              weatherText.innerText = weather.current.condition.text;
-      
-              const icon = document.createElement("img");
-              icon.src = weather.current.condition.icon;
-      
-            const details = await getCountryDetails(country.cca3)
-            const neighbor = document.createElement("ul")
-            neighbor.innerText = "Neigbouring countries"
-      
-            for (const border of details.borders) {
-              const neighborLi = document.createElement("li");
-              const neighborCountry = countries.find(country => country.cca3 === border);
-              if (neighborCountry) {
-                neighborLi.className = neighborCountry.name.common;
-                neighborLi.innerText = `${neighborCountry.name.common}'s Capital city: ${neighborCountry.capitals[0]}`;
-            
-                const neighborWeather = await getWeather(neighborCountry.capitals[0]);
-                const neighborWeatherText = document.createElement("div");
-                neighborWeatherText.innerText = neighborWeather.current.condition.text;
-      
-                const neighborWeatherTemp = document.createElement("div");
-                neighborWeatherTemp.innerText = `${neighborWeather.current.temp_c} Celsius`
-            
-                const neighborIcon = document.createElement("img");
-                neighborIcon.src = neighborWeather.current.condition.icon;
-            
-                neighborLi.append(neighborWeatherTemp, neighborIcon, neighborWeatherText);
-                neighbor.append(neighborLi);
-                
-                neighborLi.addEventListener('click', )
-              }}
+          neighborLi.addEventListener('click', async () =>{
+            select.value = neighborCountry.name.common;
+            select.dispatchEvent(new Event('change'));
           })
         }
       }
